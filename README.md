@@ -17,6 +17,7 @@ LidAwake is a tiny menu bar app that keeps your Mac running with the lid **fully
 - **One-click toggle.** 🔒 Locked laptop = normal Mac, sleeps when you close it. 🔓 Unlocked laptop = lid-proof insomniac Mac.
 - **Optional timer.** "Stay on for 2 hours" then it puts itself to bed. The countdown sits right in the menu bar.
 - **Low-battery safety net.** Unplugged and down to 10%? It turns itself off so your Mac can sleep instead of dying in your backpack.
+- **Overheat safety net.** If macOS says the machine is overheating (the fans-maxed, throttling kind of hot), it turns itself off so a closed Mac can sleep and cool down.
 - **Quitting turns it off.** You can't accidentally leave your Mac on for three weeks by force-quitting.
 - **Survives restarts.** If the timer ran out while the app was closed, it turns off the moment it opens again.
 - **Stays honest.** If you flip the setting from Terminal, the icon notices within 10 seconds.
@@ -61,7 +62,7 @@ The app never stores your password and never sees it. The macOS dialog handles t
 
 ## ⚠️ Read this, seriously
 
-- **Don't put it in a bag while it's on.** A closed, running laptop in a backpack gets hot. The battery safety net helps, but heat comes first. Use the timer.
+- **Don't put it in a bag while it's on.** A closed, running laptop in a backpack gets hot. It turns itself off if macOS reports overheating, but that is a last resort, not a plan. Use the timer.
 - **The display still turns off** when you close the lid. Only sleep is blocked.
 - `disablesleep` is a system setting that **survives reboots**. If you delete the app while it's on, the setting stays on. Use `./uninstall.sh` and it gets cleaned up.
 - Logging out or a crash doesn't turn it off (only Quit does). The next time the app opens, it picks up where it left off and enforces any expired timer.

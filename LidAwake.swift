@@ -40,6 +40,7 @@ final class Awake: ObservableObject {
         if tickCount % 10 == 0 {
             refresh()
             checkBattery()
+            checkHeat()
         }
     }
 
@@ -55,7 +56,16 @@ final class Awake: ObservableObject {
               let pct = Int(out[r].dropLast()),
               pct <= Self.lowBatteryCutoff else { return }
         set(false)
-        error = "Turned off at \(pct)% battery so your Mac can sleep."
+        // Keep set()'s error if pmset failed, so we don't claim it turned off.
+        if !isOn { error = "Turned off at \(pct)% battery so your Mac can sleep." }
+    }
+
+    /// Safety net: if it's on and macOS reports serious thermal pressure (fans
+    /// maxed, performance throttled), turn off so a closed Mac can sleep and cool.
+    private func checkHeat() {
+        guard isOn, [.serious, .critical].contains(ProcessInfo.processInfo.thermalState) else { return }
+        set(false)
+        if !isOn { error = "Turned off because your Mac was overheating." }
     }
 
     func refresh() {
